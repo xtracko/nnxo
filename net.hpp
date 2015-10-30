@@ -2,18 +2,20 @@
 
 using uint = unsigned int;
 
-template <class T, class Func, uint In>
+template <class F, uint In>
 class neuron {
-    using type = T;
+public:
+    using function = F;
+    using type = typename F::type;
     using array_type = type[In];
-
+private:
+    function _func;
     type _bias;
     array_type _weights;
 public:
     type run(const array_type& inputs) const
     {
-        Func func;
-        return func(compute_potencial(inputs));
+        return _func(compute_potencial(inputs));
     }
 protected:
     type compute_potencial(const array_type& inputs) const
@@ -26,45 +28,50 @@ protected:
     }
 };
 
-template <class T, class Func, uint In, uint Size>
+template <class F, uint In, uint Size>
 class layer {
-    using neuron_type = neuron<T, Func, In>;
+public:
+    using neuron_type = neuron<F, In>;
     using in_type = typename neuron_type::array_type;
-    using out_type = decltype(neuron_type::run)[Size];
-
+    using out_type = typename neuron_type::type[Size];
+private:
     neuron_type _neurons[Size];
 public:
-    out_type run(const in_type& inputs) const
+    void run(const in_type& ins, out_type& outs) const
     {
-        out_type outputs;
         for (uint i = 0; i < Size; ++i)
-            outputs[i] = _neurons[i].run(inputs);
-        return outputs;
+            outs[i] = _neurons[i].run(ins);
     }
 };
 
-template <class T, class Func, uint In, uint N, uint... Ns>
+template <class F, uint In, uint N, uint... Ns>
 class net {
-    using head_type = layer<T, Func, In, N>;
-
-    head_type _head;
-    net<T, N, Ns...> _tail;
+    using head_type = layer<F, In, N>;
+    using tail_type = net<F, N, Ns...>;
 public:
-    auto run(const head_type::in_type& inputs) const
+    using in_type = typename head_type::in_type;
+    using out_type = typename tail_type::out_type;
+private:
+    head_type _head;
+    tail_type _tail;
+public:
+    void run(const in_type& ins, out_type& outs) const
     {
-        auto outputs = _head.run(inputs);
-        return _tail.run(outputs);
+        _head.run(ins, outs);
     }
 };
 
-template <class T, class Func, uint In, uint N>
-class net<T, Func, In, N> {
-    using head_type = layer<T, Func, In, N>;
-
+template <class F, uint In, uint N>
+class net<F, In, N> {
+    using head_type = layer<F, In, N>;
+public:
+    using in_type = typename head_type::in_type;
+    using out_type = typename head_type::out_type;
+private:
     head_type _head;
 public:
-    auto run(const head_type::in_array& inputs) const
+    void run(const in_type& ins, out_type& outs) const
     {
-        return _head.run(inputs);
+        _head.run(ins, outs);
     }
 };
