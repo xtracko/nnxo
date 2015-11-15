@@ -68,6 +68,8 @@ bool o_won(std::vector<int> board){
  * 2) there is either same number of xs and os, or there is one more x than o
  * 3) only one of the players has won
  * 4) one of the players has one if it's not 9th turn yet
+ * 5) x cannot win in o's turn
+ * 6) o cannot win in x's turn
  */
 bool check_if_valid(std::vector<int> board) {
     int turn = 0;
@@ -84,6 +86,8 @@ bool check_if_valid(std::vector<int> board) {
     if (sum != 1 && sum != 0) return false; // 2) there is either same number of xs and os, or there is one more x than o
     if (x_has_won && o_has_won) return false; // 3) only one of the players has won
     if (turn != 9 && !o_has_won && !x_has_won) return false; // 4) one of the players has one if it's not 9th turn yet
+    if (sum == 0 && x_has_won) return false; // 5) x cannot win in o's turn
+    if (sum == 1 && o_has_won) return false; // 6) o cannot win in x's turn
 
     return true;
 }
