@@ -57,7 +57,7 @@ private:
 public:
     void run(const In_type& ins, Out_type& outs) const
     {
-        Head_type::Out_type tmp;
+        typename Head_type::Out_type tmp;
 
         _head.run(ins, tmp);
         _tail.run(tmp, outs);
