@@ -57,7 +57,10 @@ private:
 public:
     void run(const in_type& ins, out_type& outs) const
     {
-        _head.run(ins, outs);
+        head_type::out_type tmp;
+
+        _head.run(ins, tmp);
+        _tail.run(tmp, outs);
     }
 };
 
