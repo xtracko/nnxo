@@ -1,6 +1,6 @@
-all: nn-music
+all: nnxo
 
-nn-music: net.hpp main.cpp
+nnxo: net.hpp main.cpp
 	${CXX} -std=c++11 -msse2 ${CXXFLAFS} $^ -o $@
 clean:
-	rm -f nn-music
+	rm -f nnxo
