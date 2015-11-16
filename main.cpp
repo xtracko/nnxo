@@ -1,13 +1,19 @@
 #include "net.hpp"
+#include <cmath>
 #include <iostream>
 
+/*
+ * Functor of sigmoid function
+ * s(t) = 1 / (1 + e^(-t))
+ */
 class Sigmoid {
 public:
     using Type = float;
 public:
-    Type operator()(Type potencial) const
+    Type operator()(Type x) const
     {
-        return 0;
+        // NOTE: this is implementation of the fast sigmoid function
+        return x / (1 + std::abs(x));
     }
 };
 
