@@ -1,5 +1,6 @@
 #include "net.hpp"
 #include <cmath>
+#include <iomanip>
 #include <iostream>
 
 /*
@@ -24,11 +25,15 @@ int main()
     std::cout << "Hello, I am a neural net!" << std::endl;
 
     Net_type nn;
+    typename Net_type::In_type ins = {0, 0, 0};
+    typename Net_type::Out_type outs = {};
 
-    typename Net_type::Out_type out = {};
-    nn.run({0,0,0}, out);
-    for (auto& r : out)
-        std::cout << r << " ";
+    nn.run({0,0,0}, outs);
+
+    // Print the otuput layer
+    std::cout << std::fixed << std::setprecision(3);
+    for (auto val : outs)
+        std::cout << val << " ";
     std::cout << std::endl;
 
     return 0;
