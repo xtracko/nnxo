@@ -105,10 +105,9 @@ int main()
     int turn_8 = 0;
     int turn_9 = 0;
 
-    int dividing_dummy = 0;
-    int training_set_n = 0;
-    int validation_set_n = 0;
-    int testing_set_n = 0;
+    int x_won_dummy = 0;
+    int o_won_dummy = 0;
+    int draw_dummy = 0;
 
     // open file
     ofstream* output;
@@ -173,29 +172,69 @@ int main()
                     break;
             }
 
-
-            switch(dividing_dummy) {
-                case 0:
-                    output = &output_training;
-                    training_set_n++;
-                    break;
-                case 1:
-                    output = &output_validation;
-                    validation_set_n++;
-                    break;
-                case 2:
-                    output = &output_training;
-                    training_set_n++;
-                    break;
-                case 3:
-                    output = &output_testing;
-                    testing_set_n++;
-                    break;
-                case 4:
-                    output = &output_training;
-                    training_set_n++;
-                    break;
+            if (x_won(board)) {
+                switch(x_won_dummy) {
+                    case 0:
+                        output = &output_training;
+                        break;
+                    case 1:
+                        output = &output_validation;
+                        break;
+                    case 2:
+                        output = &output_training;
+                        break;
+                    case 3:
+                        output = &output_testing;
+                        break;
+                    case 4:
+                        output = &output_training;
+                        break;
+                }
+                x_won_dummy = (x_won_dummy + 1) % 5;
             }
+
+            if (o_won(board)) {
+                switch(o_won_dummy) {
+                    case 0:
+                        output = &output_training;
+                        break;
+                    case 1:
+                        output = &output_validation;
+                        break;
+                    case 2:
+                        output = &output_training;
+                        break;
+                    case 3:
+                        output = &output_testing;
+                        break;
+                    case 4:
+                        output = &output_training;
+                        break;
+                }
+                o_won_dummy = (o_won_dummy + 1) % 5;
+            }
+
+            if (!x_won(board) && !o_won(board)) {
+                switch(draw_dummy) {
+                    case 0:
+                        output = &output_training;
+                        break;
+                    case 1:
+                        output = &output_validation;
+                        break;
+                    case 2:
+                        output = &output_training;
+                        break;
+                    case 3:
+                        output = &output_testing;
+                        break;
+                    case 4:
+                        output = &output_training;
+                        break;
+                }
+                draw_dummy = (draw_dummy + 1) % 5;
+            }
+
 
 
             // print board
@@ -209,7 +248,7 @@ int main()
             *output << o_has_won << " ";
             *output << draw << endl;
 
-            dividing_dummy = (dividing_dummy + 1) % 5;
+            //dividing_dummy = (dividing_dummy + 1) % 5;
         }
         board.clear();
     }
