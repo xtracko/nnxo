@@ -99,13 +99,29 @@ int main()
     int draws = 0;
     std::vector<int> board;
     bool valid;
+    int turn_5 = 0;
+    int turn_6 = 0;
+    int turn_7 = 0;
+    int turn_8 = 0;
+    int turn_9 = 0;
+
+    int x_won_dummy = 0;
+    int o_won_dummy = 0;
+    int draw_dummy = 0;
 
     // open file
-    ofstream output;
-    output.open("output.txt");
+    ofstream* output;
+    ofstream output_training;
+    output_training.open("output_training.txt");
+
+    ofstream output_validation;
+    output_validation.open("output_validation.txt");
+
+    ofstream output_testing;
+    output_testing.open("output_testing.txt");
 
     // check if open
-    if (!output.is_open()) {
+    if (!output_training.is_open() || !output_validation.is_open() || !output_testing.is_open()) {
         cerr << "file couldn't open" << endl;
         return 1;
     }
@@ -125,31 +141,130 @@ int main()
         int draw = 0;
         if (!x_has_won && !o_has_won) draw = 1;
 
+        int turn = 0;
+        for (int i = 0; i < 9; i++) {
+            if (board[i] != 0) turn++;
+        }
+
+
         if (valid) {
             // count wins
             if (x_has_won) xwins++;
             if (o_has_won) owins++;
             if (draw == 1) draws++;
 
+            // count turns
+            switch(turn) {
+                case 5:
+                    turn_5++;
+                    break;
+                case 6:
+                    turn_6++;
+                    break;
+                case 7:
+                    turn_7++;
+                    break;
+                case 8:
+                    turn_8++;
+                    break;
+                case 9:
+                    turn_9++;
+                    break;
+            }
+
+            if (x_won(board)) {
+                switch(x_won_dummy) {
+                    case 0:
+                        output = &output_training;
+                        break;
+                    case 1:
+                        output = &output_validation;
+                        break;
+                    case 2:
+                        output = &output_training;
+                        break;
+                    case 3:
+                        output = &output_testing;
+                        break;
+                    case 4:
+                        output = &output_training;
+                        break;
+                }
+                x_won_dummy = (x_won_dummy + 1) % 5;
+            }
+
+            if (o_won(board)) {
+                switch(o_won_dummy) {
+                    case 0:
+                        output = &output_training;
+                        break;
+                    case 1:
+                        output = &output_validation;
+                        break;
+                    case 2:
+                        output = &output_training;
+                        break;
+                    case 3:
+                        output = &output_testing;
+                        break;
+                    case 4:
+                        output = &output_training;
+                        break;
+                }
+                o_won_dummy = (o_won_dummy + 1) % 5;
+            }
+
+            if (!x_won(board) && !o_won(board)) {
+                switch(draw_dummy) {
+                    case 0:
+                        output = &output_training;
+                        break;
+                    case 1:
+                        output = &output_validation;
+                        break;
+                    case 2:
+                        output = &output_training;
+                        break;
+                    case 3:
+                        output = &output_testing;
+                        break;
+                    case 4:
+                        output = &output_training;
+                        break;
+                }
+                draw_dummy = (draw_dummy + 1) % 5;
+            }
+
+
+
             // print board
             for (int k = 0; k < 9; k++) {
-               output << board[k];
-               if (k != 8) output << " ";
+               *output << board[k];
+               if (k != 8) *output << " ";
             }
 
             // print who has won or draw
-            output <<", " << x_has_won << " ";
-            output << o_has_won << " ";
-            output << draw << endl;
+            *output <<", " << x_has_won << " ";
+            *output << o_has_won << " ";
+            *output << draw << endl;
+
+            //dividing_dummy = (dividing_dummy + 1) % 5;
         }
         board.clear();
     }
 
-    output.close();
+    output->close();
+    output_training.close();
+    output_validation.close();
+    output_testing.close();
 
     // print how many time has x or o won, or the game ended in draw
     cout << xwins + owins + draws << " valid games, " << "x has won "<< xwins << " times, o has won  "
-         << owins << " times, " << draws  << " draws" << endl;
+         << owins << " times, " << draws  << " draws\n" << endl;
+
+    cout << "5th turn: " << turn_5 << "\n6th turn: " << turn_6 << "\n7th turn: " << turn_7 << "\n8th turn: "
+            << turn_8 << "\n9th turn: " << turn_9 << endl;
+
 
     return 0;
 }
