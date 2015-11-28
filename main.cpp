@@ -1,40 +1,63 @@
-#include "net.hpp"
+#include "network.hpp"
+#include "serialization.hpp"
 #include <cmath>
-#include <iomanip>
+#include <ios>
 #include <iostream>
+#include <string>
+#include <fstream>
 
-/*
- * Functor of sigmoid function
- * s(t) = 1 / (1 + e^(-t))
- */
-class Sigmoid {
-public:
-    using Type = float;
-public:
-    Type operator()(Type x) const
+struct Fast_sigmoid {
+    static Scalar root(const Scalar x)
     {
-        // NOTE: this is implementation of the fast sigmoid function
         return x / (1 + std::abs(x));
+    }
+
+    static Scalar derivative(const Scalar x)
+    {
+        const Scalar tmp = 1 + std::abs(x);
+        return Scalar(1) / (tmp * tmp);
     }
 };
 
-using Net_type = Net<Sigmoid, 3, 1>;
+std::vector<Model> txt_loader(const std::string& file)
+{
+    std::vector<Model> set;
+    std::ifstream fin(file);
+    std::cout << "loading [" << file << "]..." << std::endl;
+
+    Model model(9, 3);
+    while (fin.good()) {
+        for (uint i = 0; i < 9; ++i)
+            fin >> model.x.at(i);
+        fin >> ",";
+        for (uint i = 0; i < 3; ++i)
+            fin >> model.y.at(i);
+
+        set.emplace_back(model);
+    }
+
+    std::cout << "loading of " << set.size() << " models completed" << std::endl;
+    return set;
+}
 
 int main()
 {
-    std::cout << "Hello, I am a neural net!" << std::endl;
+    std::cin.exceptions(std::istream::failbit);
 
-    Net_type nn;
-    typename Net_type::In_type ins = {0, 0, 0};
-    typename Net_type::Out_type outs = {};
+    std::cout << "Hello, I am a neural net!" << std::endl << std::endl;
 
-    nn.run({0,0,0}, outs);
+    auto training_set = txt_loader("training.txt");
+    auto testing_set = txt_loader("testing.txt");
+    //auto validation_set = txt_loader("validation.txt");
 
-    // Print the otuput layer
-    std::cout << std::fixed << std::setprecision(3);
-    for (auto val : outs)
-        std::cout << val << " ";
-    std::cout << std::endl;
+    Network<Fast_sigmoid> net({9,3});
+    net.sgd(training_set, 1000, 10, .01);
+
+    for (const auto& model : testing_set) {
+        std::cout << net.evaluate(model.x) << std::endl;
+        std::cout << model.y << std::endl;
+        std::cout <<std::endl;
+    }
 
     return 0;
 }
