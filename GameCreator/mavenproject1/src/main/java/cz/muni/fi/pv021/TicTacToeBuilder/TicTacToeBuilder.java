@@ -49,7 +49,8 @@ public class TicTacToeBuilder {
         int i = 0;
         while ((line = br.readLine()) != null) {
             try {
-                this.compose(line.split(" ")[0], i);
+                final String[] split = line.split(" ");
+                this.compose(split[0], i, split[1]);
             } catch (IOException ex) {
                 Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.SEVERE, "Cannot write result" + i, ex);
             }
@@ -57,7 +58,7 @@ public class TicTacToeBuilder {
         }
     }
 
-    public void compose(String gameplanSetUp, int number) throws IOException {
+    public void compose(String gameplanSetUp, int number, String gameResult) throws IOException {
         String[] setUp = gameplanSetUp.split(" ");
         int i = 0;
         for (String item : setUp) {
@@ -80,7 +81,7 @@ public class TicTacToeBuilder {
             }
             i++;
         }
-        final File result = new File(this.outPath + "result" + number + ".bmp");
+        final File result = new File(this.outPath + number + ".bmp");
         result.mkdirs();
         ImageIO.write(gamePlan, "bmp", result);
         Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "Result writtern in:" + result.getAbsolutePath());
