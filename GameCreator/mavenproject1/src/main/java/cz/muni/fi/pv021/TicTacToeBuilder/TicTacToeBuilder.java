@@ -49,7 +49,7 @@ public class TicTacToeBuilder {
         int i = 0;
         while ((line = br.readLine()) != null) {
             try {
-                final String[] split = line.split(" ");
+                final String[] split = line.split(",");
                 this.compose(split[0], i, split[1]);
             } catch (IOException ex) {
                 Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.SEVERE, "Cannot write result" + i, ex);
@@ -60,24 +60,40 @@ public class TicTacToeBuilder {
 
     public void compose(String gameplanSetUp, int number, String gameResult) throws IOException {
         String[] setUp = gameplanSetUp.split(" ");
+        Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "gameplan: " + gameplanSetUp);
         int i = 0;
         for (String item : setUp) {
+            Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "znak" + i + " : "  + item);
             int posx = i % 3;
             int posy = i / 3;
-            if (item.equals("1")) {
-                gamePlan.createGraphics().drawImage(
-                        cross,
-                        (cross.getWidth() + LINE_SIZE) * posx,
-                        (cross.getHeight() + LINE_SIZE) * posy,
-                        null
-                );
-            } else if (item.equals("-1")) {
-                gamePlan.createGraphics().drawImage(
-                        circle,
-                        (circle.getWidth() + LINE_SIZE) * posx,
-                        (circle.getHeight() + LINE_SIZE) * posy,
-                        null
-                );
+            switch (item) {
+                case "1":
+                    gamePlan.createGraphics().drawImage(
+                            (cross),
+                            null,
+                            (cross.getWidth() + LINE_SIZE) * posx,
+                            (cross.getHeight() + LINE_SIZE) * posy
+                    );
+                    Logger.getLogger(TicTacToeBuilder.class.getName()).log(
+                            Level.INFO, "[" + cross.getWidth() + "," + cross.getHeight() + "] "
+                            + "pozice:[" + ((cross.getWidth() + LINE_SIZE) * posx) + ","
+                            + ((cross.getHeight() + LINE_SIZE) * posy) + "]"
+                    );
+
+                    break;
+                case "-1":
+                    gamePlan.createGraphics().drawImage(
+                            circle,
+                            null,
+                            (circle.getWidth() + LINE_SIZE) * posx,
+                            (circle.getHeight() + LINE_SIZE) * posy
+                    );
+                    Logger.getLogger(TicTacToeBuilder.class.getName()).log(
+                            Level.INFO, "[" + cross.getWidth() + "," + cross.getHeight() + "] "
+                            + "pozice:[" + ((cross.getWidth() + LINE_SIZE) * posx) + ","
+                            + ((cross.getHeight() + LINE_SIZE) * posy) + "]"
+                    );
+                    break;
             }
             i++;
         }
