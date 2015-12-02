@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -27,8 +28,8 @@ public class TicTacToeBuilder {
             builder = new TicTacToeBuilder(args[0], args[1]);
         } catch (IOException ex) {
             Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.SEVERE, "Cannot read resources.", ex);
-            return;
         }
+        
 
     }
 
@@ -37,9 +38,11 @@ public class TicTacToeBuilder {
     private BufferedImage circle;
     private final int LINE_SIZE = 1;
     private String outPath;
+    private Random gen = new Random();
+    private ClassLoader loader = getClass().getClassLoader();
 
     public TicTacToeBuilder(String path, String outPath) throws IOException {
-        ClassLoader loader = getClass().getClassLoader();
+        
         gamePlan = ImageIO.read(loader.getResource("GamePlan.bmp"));
         cross = ImageIO.read(loader.getResource("Cross.bmp"));
         circle = ImageIO.read(loader.getResource("Circle.bmp"));
@@ -59,11 +62,12 @@ public class TicTacToeBuilder {
     }
 
     public void compose(String gameplanSetUp, int number, String gameResult) throws IOException {
+        gamePlan = ImageIO.read(loader.getResource("GamePlan.bmp"));
+        int squareSize = (gamePlan.getWidth() - 2) / 3;
+        int randomMax = squareSize - circle.getWidth();
         String[] setUp = gameplanSetUp.split(" ");
-        Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "gameplan: " + gameplanSetUp);
         int i = 0;
         for (String item : setUp) {
-            Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "znak" + i + " : "  + item);
             int posx = i % 3;
             int posy = i / 3;
             switch (item) {
@@ -71,13 +75,8 @@ public class TicTacToeBuilder {
                     gamePlan.createGraphics().drawImage(
                             (cross),
                             null,
-                            (cross.getWidth() + LINE_SIZE) * posx,
-                            (cross.getHeight() + LINE_SIZE) * posy
-                    );
-                    Logger.getLogger(TicTacToeBuilder.class.getName()).log(
-                            Level.INFO, "[" + cross.getWidth() + "," + cross.getHeight() + "] "
-                            + "pozice:[" + ((cross.getWidth() + LINE_SIZE) * posx) + ","
-                            + ((cross.getHeight() + LINE_SIZE) * posy) + "]"
+                            ((squareSize + LINE_SIZE) * posx) + gen.nextInt(randomMax+1),
+                            ((squareSize + LINE_SIZE) * posy) + gen.nextInt(randomMax+1)
                     );
 
                     break;
@@ -85,13 +84,8 @@ public class TicTacToeBuilder {
                     gamePlan.createGraphics().drawImage(
                             circle,
                             null,
-                            (circle.getWidth() + LINE_SIZE) * posx,
-                            (circle.getHeight() + LINE_SIZE) * posy
-                    );
-                    Logger.getLogger(TicTacToeBuilder.class.getName()).log(
-                            Level.INFO, "[" + cross.getWidth() + "," + cross.getHeight() + "] "
-                            + "pozice:[" + ((cross.getWidth() + LINE_SIZE) * posx) + ","
-                            + ((cross.getHeight() + LINE_SIZE) * posy) + "]"
+                            ((squareSize + LINE_SIZE) * posx) + gen.nextInt(randomMax+1),
+                            ((squareSize + LINE_SIZE) * posy) + gen.nextInt(randomMax+1)
                     );
                     break;
             }
