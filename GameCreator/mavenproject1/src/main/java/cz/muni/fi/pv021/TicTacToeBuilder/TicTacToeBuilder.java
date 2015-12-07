@@ -54,11 +54,12 @@ public final class TicTacToeBuilder {
         while ((line = br.readLine()) != null) {
             try {
                 final String[] split = line.split(",");
-                if (random) {
-                    this.composeRandom(split[0], i, split[1]);
-                } else {
-                    this.composeFixed(split[0], i, split[1]);
-                }
+                /*if (random) {
+                 this.composeRandom(split[0], i, split[1]);
+                 } else {
+                 this.composeFixed(split[0], i, split[1]);
+                 }*/
+                this.compose14x14(split[0], i, split[1]);
             } catch (IOException ex) {
                 Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.SEVERE, "Cannot write result" + i, ex);
             }
@@ -100,6 +101,51 @@ public final class TicTacToeBuilder {
         result.mkdirs();
         ImageIO.write(gamePlan, "bmp", result);
         Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "Result writtern in:" + result.getAbsolutePath());
+    }
+
+    public void compose14x14(String gameplanSetUp, int number, String gameResult) throws IOException {
+        gamePlan = ImageIO.read(loader.getResource("GamePlan14x14.bmp"));
+        int squareSize = (gamePlan.getWidth() - 2) / 3;
+        int randomMax = squareSize - circle.getWidth();
+        Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "random: " + randomMax);
+        String[] setUp = gameplanSetUp.split(" ");
+        int i = 0;
+        for (int x = 0; x <= randomMax; x++) {
+            for (int y = 0; y <= randomMax; y++) {
+                gamePlan = ImageIO.read(loader.getResource("GamePlan14x14.bmp"));
+                for (String item : setUp) {
+
+                    int posx = i % 3;
+                    int posy = i / 3;
+                    switch (item) {
+                        case "1":
+                            gamePlan.createGraphics().drawImage(
+                                    (cross),
+                                    null,
+                                    ((squareSize + LINE_SIZE) * posx) + x,
+                                    ((squareSize + LINE_SIZE) * posy) + y
+                            );
+
+                            break;
+                        case "-1":
+                            gamePlan.createGraphics().drawImage(
+                                    circle,
+                                    null,
+                                    ((squareSize + LINE_SIZE) * posx) + x,
+                                    ((squareSize + LINE_SIZE) * posy) + y
+                            );
+                            break;
+                    }
+
+                }
+                final File result = new File(this.outPath + number + "[" + x + "," + y + "]" + ".bmp");
+                result.mkdirs();
+                ImageIO.write(gamePlan, "bmp", result);
+                Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "Result writtern in:" + result.getAbsolutePath());
+            }
+            i++;
+        }
+
     }
 
     public void composeFixed(String gameplanSetUp, int number, String gameResult) throws IOException {
