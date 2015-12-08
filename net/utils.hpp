@@ -67,4 +67,27 @@ struct Statistics {
 
     std::vector<double> training_accurancy;
     std::vector<double> evaluation_accurancy;
+
+    std::vector<Matrix> training_confusions;
+    std::vector<Matrix> evaluation_confusions;
 };
+
+
+#include <ostream>
+
+std::ostream& operator<< (std::ostream& os, const Matrix& rhs)
+{
+    for (uint i = 0; i < rhs.rows(); ++i) {
+        for (uint j = 0; j < rhs.cols(); ++j)
+            os << rhs.at(i, j) << ", ";
+        os << std::endl;
+    }
+    return os;
+}
+
+std::ostream& operator<< (std::ostream& os, const Vector &rhs)
+{
+    for (uint i = 0; i < rhs.rows(); ++i)
+        os << rhs.at(i) << ", ";
+    return os;
+}

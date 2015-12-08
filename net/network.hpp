@@ -114,8 +114,27 @@ public:
 
             stats.evaluation_accurancy.emplace_back(accurancy(evaluation_data));
             stats.evaluation_cost.emplace_back(total_cost(evaluation_data, lambda));
+
+            stats.training_confusions.emplace_back(confusion(training_data));
+            stats.evaluation_confusions.emplace_back(confusion(evaluation_data));
         }
         return stats;
+    }
+
+    Matrix confusion(const Data& data)
+    {
+        Matrix m(3,3);
+        for (auto& model : data) {
+            Vector out = feedforward(model.x);
+            m.at(max_elem(out), max_elem(model.y)) += 1;
+/*
+            if (max_elem(out) == 2 && max_elem(model.y) == 0)
+                std::cout << "20    " << model.x << std::endl;
+            if (max_elem(out) == 0 && max_elem(model.y) == 2)
+                std::cout << "02    " << model.x << std::endl;
+*/
+        }
+        return m;
     }
 
 protected:
