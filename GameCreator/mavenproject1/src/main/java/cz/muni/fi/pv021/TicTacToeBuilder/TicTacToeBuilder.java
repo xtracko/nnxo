@@ -109,41 +109,48 @@ public final class TicTacToeBuilder {
         int randomMax = squareSize - circle.getWidth();
         Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "random: " + randomMax);
         String[] setUp = gameplanSetUp.split(" ");
-        int i = 0;
-        for (int x = 0; x <= randomMax; x++) {
-            for (int y = 0; y <= randomMax; y++) {
-                gamePlan = ImageIO.read(loader.getResource("GamePlan14x14.bmp"));
-                for (String item : setUp) {
 
-                    int posx = i % 3;
-                    int posy = i / 3;
-                    switch (item) {
-                        case "1":
-                            gamePlan.createGraphics().drawImage(
-                                    (cross),
-                                    null,
-                                    ((squareSize + LINE_SIZE) * posx) + x,
-                                    ((squareSize + LINE_SIZE) * posy) + y
-                            );
+        for (int pole = 0; pole < 9; pole++) {
+            for (int x = 0; x <= randomMax; x++) {
+                for (int y = 0; y <= randomMax; y++) {
+                    int i = 0;
+                    for (int h = 0; h < setUp.length; h++) {
+                        String item = setUp[h];
+                        int posx = i % 3;
+                        int posy = i / 3;
+                        int xplus = h == pole ? x : 0;
+                        int yplus = h == pole ? y : 0;
+                        switch (item) {
+                            case "1":
+                                gamePlan.createGraphics().drawImage(
+                                        (cross),
+                                        null,
+                                        ((squareSize + LINE_SIZE) * posx) + xplus,
+                                        ((squareSize + LINE_SIZE) * posy) + yplus
+                                );
 
-                            break;
-                        case "-1":
-                            gamePlan.createGraphics().drawImage(
-                                    circle,
-                                    null,
-                                    ((squareSize + LINE_SIZE) * posx) + x,
-                                    ((squareSize + LINE_SIZE) * posy) + y
-                            );
-                            break;
+                                break;
+                            case "-1":
+                                gamePlan.createGraphics().drawImage(
+                                        circle,
+                                        null,
+                                        ((squareSize + LINE_SIZE) * posx) + xplus,
+                                        ((squareSize + LINE_SIZE) * posy) + yplus
+                                );
+                                break;
+                        }
+                        i++;
+
                     }
+                    final File result = new File(this.outPath + pole + "_" + number + "[" + x + "," + y + "]" + ".bmp");
+                    result.mkdirs();
+                    ImageIO.write(gamePlan, "bmp", result);
+                    Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "Result writtern in:" + result.getAbsolutePath());
+                    gamePlan = ImageIO.read(loader.getResource("GamePlan14x14.bmp"));
 
                 }
-                final File result = new File(this.outPath + number + "[" + x + "," + y + "]" + ".bmp");
-                result.mkdirs();
-                ImageIO.write(gamePlan, "bmp", result);
-                Logger.getLogger(TicTacToeBuilder.class.getName()).log(Level.INFO, "Result writtern in:" + result.getAbsolutePath());
+
             }
-            i++;
         }
 
     }
