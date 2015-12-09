@@ -103,10 +103,10 @@ public final class TicTacToeBuilder {
 
     private Collection<GameConfig> generateGameConfigs(String[] setUp, int squareSpace) {
         Set<GameConfig> result = new HashSet();
-        int perms = (int) Math.pow((2*(squareSpace+1)), 9);
+        int perms = (int) Math.pow((Math.pow(squareSpace+1,2)), 9);
         while (result.size() < limit) {
             int configNumber = gen.nextInt(perms);
-            result.add(getOneGameConfig(configNumber, (2*(squareSpace+1)), squareSpace+1, setUp));
+            result.add(getOneGameConfig(configNumber, (int) (Math.pow(squareSpace+1,2)), squareSpace+1, setUp));
         }
         return result;
     }
