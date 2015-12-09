@@ -10,6 +10,8 @@ struct Model {
     Vector x;
     Vector y;
 
+    Model() = default;
+
     Model(uint in, uint out)
         : x(in)
         , y(out)

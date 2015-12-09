@@ -1,3 +1,7 @@
 nnxo
 *.o
 /GameCreator/mavenproject1/target/
+training/
+validation/
+testing/
+out/
