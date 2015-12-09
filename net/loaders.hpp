@@ -64,14 +64,16 @@ Vector read_bmp(const std::string& filename){
    return data;
 }
 
-Data bmp_loader(const std::string& folder)
+Data bmp_loader(const std::string& folder, const uint variants)
 {
     auto data = txt_loader(folder + "/data.txt");
 
     for (uint i = 0; i < data.size(); ++i) {
-        std::ostringstream oss;
-        oss << folder << "/" << i << ".bmp";
-        data[i].x = read_bmp(oss.str());
+        for (uint j = 0; j < variants; ++j) {
+            std::ostringstream oss;
+            oss << folder << "/" << i << "_" << j << ".bmp";
+            data[i].x = read_bmp(oss.str());
+        }
     }
     return data;
 }

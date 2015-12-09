@@ -3,26 +3,27 @@
 #include "loaders.hpp"
 #include "functions.hpp"
 
+const uint variants = 1;
 const uint epochs = 500;
 const uint batch_size = 10;
 const Scalar eta = 0.01;
 const Scalar lambda = 0.0;
-const std::vector<uint> shape = {9, 16, 16, 3};
+const std::vector<uint> shape = {11*11, 3};
 
 int main()
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-
+/*
     auto training_data = txt_loader("training/data.txt");
     auto validation_data = txt_loader("validation/data.txt");
     auto testing_data = txt_loader("testing/data.txt");
-
-/*
-    auto training_data = bmp_loader("training");
-    auto validation_data = bmp_loader("validation");
-    auto testing_data = bmp_loader("testing");
 */
+
+    auto training_data = bmp_loader("training", variants);
+    auto validation_data = bmp_loader("validation", variants);
+    auto testing_data = bmp_loader("testing", variants);
+
 
     Network<Fast_sigmoid, Quadratic_cost> network(shape);
     //network.init(gen);
