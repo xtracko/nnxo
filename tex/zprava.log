@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.17)  8 DEC 2015 17:43
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.10.17)  13 DEC 2015 13:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -571,48 +571,83 @@ File: c2.png Graphic file (type png)
  <use c2.png>
 Package pdftex.def Info: c2.png used on input line 98.
 (pdftex.def)             Requested size: 241.84843pt x 145.1127pt.
- [2 <./a1.png (PNG copy)> <./c1.png (PNG copy)> <./a2.png (PNG copy)> <./c2.png
- (PNG copy)>]
 
-LaTeX Warning: Reference `vzor14' on page 3 undefined on input line 135.
 
-<vzor14.pdf, id=26, 501.875pt x 501.875pt>
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2 <./a1.png (PNG copy)> <./c1.png (PNG copy)> <./a2.png (PNG copy)> <./c2.png 
+(PNG copy)>] [3]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 174.
+
+ (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 174.
+
+<a3.png, id=29, 501.875pt x 301.125pt>
+File: a3.png Graphic file (type png)
+ <use a3.png>
+Package pdftex.def Info: a3.png used on input line 182.
+(pdftex.def)             Requested size: 241.84843pt x 145.1127pt.
+
+<c3.png, id=30, 501.875pt x 301.125pt>
+File: c3.png Graphic file (type png)
+ <use c3.png>
+Package pdftex.def Info: c3.png used on input line 188.
+(pdftex.def)             Requested size: 241.84843pt x 145.1127pt.
+
+<vzor11.pdf, id=31, 501.875pt x 501.875pt>
+File: vzor11.pdf Graphic file (type pdf)
+ <use vzor11.pdf>
+Package pdftex.def Info: vzor11.pdf used on input line 209.
+(pdftex.def)             Requested size: 50.19043pt x 50.19043pt.
+
+<vzor14.pdf, id=32, 501.875pt x 501.875pt>
 File: vzor14.pdf Graphic file (type pdf)
  <use vzor14.pdf>
-Package pdftex.def Info: vzor14.pdf used on input line 147.
-(pdftex.def)             Requested size: 100.37321pt x 100.37321pt.
- [3 <./vzor14.pdf>]
-(./zprava.aux)
+Package pdftex.def Info: vzor14.pdf used on input line 215.
+(pdftex.def)             Requested size: 50.19043pt x 50.19043pt.
+ [4
 
-LaTeX Warning: There were undefined references.
+ <./a3.png (PNG copy)> <./c3.png (PNG copy)> <./vzor11.pdf> <./vzor14.pdf
 
- ) 
+pdfTeX warning: pdflatex (file ./vzor14.pdf): PDF inclusion: multiple pdfs with
+ page group included in a single page
+>] [5] (./zprava.aux) ) 
 Here is how much of TeX's memory you used:
- 5046 strings out of 493304
- 70169 string characters out of 6139870
- 143022 words of memory out of 5000000
- 8394 multiletter control sequences out of 15000+600000
+ 5086 strings out of 493304
+ 70693 string characters out of 6139870
+ 147087 words of memory out of 5000000
+ 8428 multiletter control sequences out of 15000+600000
  20295 words of font info for 58 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,9n,38p,579b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.600pk> </home/ma
-ru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> </home/maru/.texmf-va
-r/fonts/pk/ljfour/jknappen/ec/ectt0800.600pk> </home/maru/.texmf-var/fonts/pk/l
-jfour/jknappen/ec/ecrm0600.600pk> </home/maru/.texmf-var/fonts/pk/ljfour/jknapp
-en/ec/ecrm0700.600pk> </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx12
-00.600pk> </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk> </
-home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.600pk> </home/maru/.t
-exmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </home/maru/.texmf-var/fon
-ts/pk/ljfour/jknappen/ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on zprava.pdf (3 pages, 167503 bytes).
+ 38i,9n,38p,579b,493s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx
+1000.600pk> </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0900.600pk> 
+</home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0800.600pk> </home/maru/
+.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0600.600pk> </home/maru/.texmf-var/f
+onts/pk/ljfour/jknappen/ec/ecrm0700.600pk> </home/maru/.texmf-var/fonts/pk/ljfo
+ur/jknappen/ec/ecbx1200.600pk> </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/
+ec/ecrm1000.600pk> </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1440.
+600pk> </home/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1200.600pk> </hom
+e/maru/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1728.600pk></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy9.pfb>
+Output written on zprava.pdf (5 pages, 202588 bytes).
 PDF statistics:
- 322 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
+ 342 PDF objects out of 1000 (max. 8388607)
+ 79 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
