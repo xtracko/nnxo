@@ -34,14 +34,14 @@ Téma práce je inspirováno databází UCI Machine Learning \footnote{\url{http
 Existuje celkem 958 možných endgames. Z~nich v~626 případech vyhrál X, v~316 vyhrál O~a v~16 hra skončila remízou. Základní data představuje rozdělení do tréninkových, validačních a testovacích množin v~poměru 60:20:20 tak, že v~každé množině je stejné procentuální zastoupení vítězství X, O~a remíz. Dále jsme data různým způsobem modifikovali, což bude popsáno níže.
 
 \section*{Implementace}
-Rozhodli jsme se pro řešení problému pomocí vícevrstvé sítě a backpropagation. Tuto síť jsme naprogramovali v~jazyce C++ za použití návodu z~online učebnice \uv{Neural networks and deep learning} \footnote{\url{http://neuralnetworksanddeeplearning.com/}}. Pro zachování konzistence jsme používali stejnou terminologii (epocha, batch size, eta,\dots). Jako aktivační funkci jsme použili sigmoidu optimalizovanou pro rychlost $\frac{x}{1+|x|}$ a její derivaci $\frac{1}{(1+|x|)^2}$. Jako chybovou funkci jsme zvolili kvadratickou. Ze začátku jsme váhy inicializovali pomocí normálního rozdělení $N(0,1)$. Abychom zrychlili učení, přešli na normální rozložení $N(0,\frac{1}{sqrt(n)}$, kde $n$ je počet vstupních neuronů dané vrstvy.
+Rozhodli jsme se pro řešení problému pomocí vícevrstvé sítě a backpropagation. Tuto síť jsme naprogramovali v~jazyce C++ za použití návodu z~online učebnice \uv{Neural networks and deep learning} \footnote{\url{http://neuralnetworksanddeeplearning.com/}}. Pro zachování konzistence jsme používali stejnou terminologii (epocha, batch size, eta,\dots). Jako aktivační funkci jsme použili sigmoidu optimalizovanou pro rychlost $\frac{x}{1+|x|}$ a její derivaci $\frac{1}{(1+|x|)^2}$. Jako chybovou funkci jsme zvolili kvadratickou. Ze začátku jsme váhy inicializovali pomocí normálního rozdělení $N(0,1)$. Abychom zrychlili učení, přešli jsme na normální rozložení $N\left(0,\frac{1}{\sqrt{n}}\right)$, kde $n$ je počet vstupních neuronů dané vrstvy.
 
 
 \section*{Učení}
 \subsection*{Textový vstup}
 Nejdřív jsme síť naučili na jednoduchém textovém vstupu, který představuje dvourozměrné pole $3\times 3$. Jeho prvky jsou hodnoty z~množiny $\{-1,0,1\}$, které reprezentují  postupně \uv{kolečko}, prázdné pole a \uv{křížek}.
 
-Jako první jsme vyzkoušeli velikost sítě (9,9,3), rychlost učení 0,05, 500 epoch. Síť se naučila rozpoznávat hry s~přesností 98,4\,\% za cca 60 epoch. Dále byla přesnost stabilní. Ačkoliv cost function nadále klesala, síť se nepřeučovala, viz obrázek \ref{fig:1}. Matice zmatenosti -- tabulka \ref{mz1} (R znamená remíza) ukazuje, že se síť dobře rozpoznává vítězství X a O, ale má problém poznat remízu, protože v~tréninkových datech se konfigurace znamenající remízu vyskytují příliš málo a síť se je nezvládne naučit. 
+Jako první jsme vyzkoušeli velikost sítě (9,9,3), rychlost učení 0,05, 500 epoch. Síť se naučila rozpoznávat hry s~přesností 98,4\,\% za cca 60 epoch. Dále byla přesnost stabilní. Ačkoliv cost function nadále klesala, síť se nepřeučovala, viz obrázek \ref{fig:1}. Matice zmatenosti -- tabulka \ref{mz1} (R znamená remíza) ukazuje, že síť dobře rozpoznává vítězství X a O, ale má problém poznat remízu, protože v~tréninkových datech se konfigurace znamenající remízu vyskytují příliš málo a síť se je nezvládne naučit. 
 
 \begin{figure}[h!]
 \centering
@@ -170,9 +170,9 @@ Pak jsme zmenšili rychlost učení z~0,05 na 0,01 a zvětšili počet epoch z~5
 
 \FloatBarrier
 \subsection*{Grafický vstup $11\times 11$}
-V~druhé fázi jsme síti předhodili černobílý bitmapový obrázek o~velikosti $11\times 11$ pixelů (viz obrázek \ref{fig:v1}). Na základních datech je výsledek stejný jako v~případě textového vstupu, síť nerozpoznává remízu.
+V~druhé fázi jsme síti předložili černobílý bitmapový obrázek o~velikosti $11\times 11$ pixelů (viz obrázek \ref{fig:v1}). Na základních datech je výsledek stejný jako v~případě textového vstupu, síť nerozpoznává remízu.
 
-Hráli jsme si s~různým nastavením sítě, ale přesnost se nijak nezlepšovala. Nejlepšího výsledku jsme dosáhli použitím duplikovaných dat popsaných v~předchozí sekci a dosáhli tak přesnosti 95,5\,\%, viz obrázek \ref{fig:3}.
+Hráli jsme si s~různým nastavením sítě, ale přesnost se nijak nezlepšovala. Nejlepšího výsledku jsme dosáhli použitím duplikovaných dat popsaných v~předchozí sekci a dosáhli tak přesnosti 99,5\,\%, viz obrázek \ref{fig:3}.
 
 Mezi neúspěšné pokusy patří např.:
 \begin{itemize}
