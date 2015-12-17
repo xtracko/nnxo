@@ -107,7 +107,7 @@ public:
 
             for (auto& batch : batches)
                 update_batch(batch, eta, lambda, n);
-            std::cout << "epoch " << e << " complete" << std::endl;
+            std::cout << "epoch " << e << " from " << epochs << " complete" << std::endl;
 
             stats.training_accurancy.emplace_back(accurancy(training_data));
             stats.training_cost.emplace_back(total_cost(training_data, lambda));

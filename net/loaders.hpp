@@ -87,3 +87,27 @@ Data bmp_loader(const std::string& folder, const uint variants)
     }
     return data;
 }
+
+struct All {
+    Data testing;
+    Data training;
+    Data validation;
+};
+
+All load_txt(const std::string& folder)
+{
+    All all;
+    all.testing = txt_loader(folder + "/testing/data.txt");
+    all.training = txt_loader(folder + "/training/data.txt");
+    all.validation = txt_loader(folder + "/validation/data.txt");
+    return all;
+}
+
+All load_bmp(const std::string& folder, const uint variants = 1)
+{
+    All all;
+    all.testing = bmp_loader(folder + "/testing", variants);
+    all.training = bmp_loader(folder + "/training", variants);
+    all.validation = bmp_loader(folder + "/validation", variants);
+    return all;
+}

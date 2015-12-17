@@ -2,58 +2,75 @@
 #include "network.hpp"
 #include "loaders.hpp"
 #include "functions.hpp"
+#include "statistics.hpp"
 
+
+
+/////////////////////////////////////////////////////////
+///             parameters to play with               ///
+/////////////////////////////////////////////////////////
+
+// načíst textová nebo bitmapová data
+const bool load_bitmap_data = false;
+
+// složka kde se nachásí vstupní data (buď "duplicated", nebo "normal")
+const auto input_folder = "duplicated";
+
+/////////////////////////////////////////////////////////
+///             parameters to play with               ///
+/////////////////////////////////////////////////////////
+
+
+
+// parametry backpropagation, netřeba měnit
+const uint epochs = 800;     // pačet iteraci
+const uint batch_size = 10;  // velikost mini batche
+const Scalar eta = 0.01;     // rychlost učení
+const Scalar lambda = 0.0;   // weight decay
+const bool use_advanced_weight_initializer = true;
+
+// složka, kam se maji uložit soubory popisující průběh učení (veličiny accurancy a cost function)
+const auto output_folder = "out";
+
+// velikost sítě pro textový a bitmapový vstup
+const std::vector<uint> shape_txt = {9, 9, 3};
+const std::vector<uint> shape_bmp = {121, 9, 3};
+
+// pokud nebudete zkoušet vstup na bitmapách o velikosti 14x14 tak není třeba měnit 
 const uint variants = 1;
-const uint epochs = 500;
-const uint batch_size = 10;
-const Scalar eta = 0.01;
-const Scalar lambda = 0.0;
-const std::vector<uint> shape = {11*11, 3};
+
+
+
 
 int main()
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-/*
-    auto training_data = txt_loader("training/data.txt");
-    auto validation_data = txt_loader("validation/data.txt");
-    auto testing_data = txt_loader("testing/data.txt");
-*/
 
-    auto training_data = bmp_loader("training", variants);
-    auto validation_data = bmp_loader("validation", variants);
-    auto testing_data = bmp_loader("testing", variants);
+    // create multilayered neural net with sigmoid activation function and quadratic cost function
+    Network<Fast_sigmoid, Quadratic_cost> network(load_bitmap_data ? shape_bmp : shape_txt);
 
+    // load data sets
+    auto data_sets = load_bitmap_data ? load_bmp(input_folder) : load_txt(input_folder);
 
-    Network<Fast_sigmoid, Quadratic_cost> network(shape);
-    //network.init(gen);
-    network.init_2(gen);
-    Statistics stats = network.sgd(training_data, epochs, batch_size, eta, lambda, gen, validation_data);
+    // initialize weights
+    if (use_advanced_weight_initializer)
+        network.init_2(gen);
+    else
+        network.init(gen);
 
-    std::ofstream acc("out/accurancy.csv");
-    for (uint i = 0; i < epochs; ++i)
-        acc << stats.training_accurancy[i] << "," << stats.evaluation_accurancy[i] << std::endl;
-
-    std::ofstream cost("out/cost.csv");
-    for (uint i = 0; i < epochs; ++i)
-        cost << stats.training_cost[i] << "," << stats.evaluation_cost[i] << std::endl;
-
-    std::ofstream tr_conf("out/training_conf.txt");
-    for (uint i = 0; i < epochs; ++i)
-        tr_conf << "epoch: " << i << std::endl << stats.training_confusions[i] << std::endl;
+    // run stochastics gradient descend
+    auto statistics = network.sgd(data_sets.training, epochs, batch_size, eta, lambda, gen, data_sets.validation);
+    save_statistics(statistics, output_folder);
 
 
-    std::ofstream ev_conf("out/validation_conf.txt");
-    for (uint i = 0; i < epochs; ++i)
-        ev_conf << "epoch: " << i << std::endl << stats.evaluation_confusions[i] << std::endl;
+    std::cout << std::endl;
+    std::cout << "///////////////////////////////////////////////////" << std::endl;
+    std::cout << "//                    Results:                  ///" << std::endl;
+    std::cout << "///////////////////////////////////////////////////" << std::endl << std::endl;
 
-    //results
-
-    std::ofstream te_conf("out/testing_conf.txt");
-    te_conf << network.confusion(testing_data);
-
-    std::ofstream te_acc("out/testing_acc.txt");
-    te_acc << network.accurancy(testing_data);
+    std::cout << "accurancy: " << network.accurancy(data_sets.testing) << std::endl << std::endl;
+    std::cout << "confusion matrix" << std::endl << network.confusion(data_sets.testing) << std::endl;
 
     return 0;
 }
